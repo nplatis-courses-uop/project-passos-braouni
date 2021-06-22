@@ -18,7 +18,8 @@ public class Client extends Application
 {
     private VBox keyboard = new VBox();
     private GridPane main = new GridPane();
-
+    private TextField textDisplay = new TextField();
+    private String text="";
     @Override
     public void start(Stage stage) 
     {
@@ -26,7 +27,11 @@ public class Client extends Application
 
         createLicencePlateDisplay();
 
+
+    
         var scene = new Scene(main, 1024, 768);
+
+
         stage.setScene(scene);
         stage.setTitle("Client");
         stage.show();
@@ -34,7 +39,6 @@ public class Client extends Application
 
     private void createLicencePlateDisplay()
     {
-        TextField textDisplay = new TextField();
         textDisplay.setPrefWidth(150);
         textDisplay.setPromptText("Παρακαλώ εισάγετε τον αριθμό κυκλοφορίας");
         textDisplay.setPadding(new Insets(10,10,10,10));
@@ -60,16 +64,21 @@ public class Client extends Application
             {"Q", "W", "E", "R", "T", "Y", "U"}, 
             {"I", "O", "P", "A", "S", "D", "F"},
             {"G", "H", "J", "K", "L", "Z", "X"},
-            {"C", "V", "B", "N", "M", "SPACE ", "BACKSPACE","ENTER"}
+            {"C", "V", "B", "N", "M", "SPACE", "BACKSPACE","ENTER"}
         };
 
         //FirstRow
         for(int j =0; j<letters[0].length; j++)
         {
             Button button = new Button(letters[0][j]);
-
             button.setPadding(new Insets(35));
             firstRow.getChildren().add(button);
+            
+            button.setOnAction(event -> 
+            {
+                text += ((Button) event.getSource()).getText();
+                textDisplay.setText(text);
+            });
         }
         for(int j =0; j<3; j++)
         {
@@ -78,6 +87,12 @@ public class Client extends Application
             button.setPadding(new Insets(35));
 
             firstRow.getChildren().add(button);
+
+            button.setOnAction(event -> 
+            {
+                text += ((Button) event.getSource()).getText();
+                textDisplay.setText(text);
+            });
         }
         keyboard.getChildren().add(firstRow);
         //FirstRow
@@ -89,6 +104,12 @@ public class Client extends Application
 
             button.setPadding(new Insets(35));
             secondRow.getChildren().add(button);
+
+            button.setOnAction(event -> 
+            {
+                text += ((Button) event.getSource()).getText();
+                textDisplay.setText(text);
+            });
         }
         for(int j =3; j<6; j++)
         {
@@ -97,6 +118,12 @@ public class Client extends Application
             button.setPadding(new Insets(35));
 
             secondRow.getChildren().add(button);
+
+            button.setOnAction(event -> 
+            {
+                text += ((Button) event.getSource()).getText();
+                textDisplay.setText(text);
+            });
         }
         keyboard.getChildren().add(secondRow);
         //SecondRow
@@ -109,6 +136,12 @@ public class Client extends Application
             button.setPadding(new Insets(35));
 
             thirdRow.getChildren().add(button);
+
+            button.setOnAction(event -> 
+            {
+                text += ((Button) event.getSource()).getText();
+                textDisplay.setText(text);
+            });
         }
         for(int j =6; j<9; j++)
         {
@@ -117,6 +150,12 @@ public class Client extends Application
             button.setPadding(new Insets(35));
             
             thirdRow.getChildren().add(button);
+
+            button.setOnAction(event -> 
+            {
+                text += ((Button) event.getSource()).getText();
+                textDisplay.setText(text);
+            });
         }
         keyboard.getChildren().add(thirdRow);
     
@@ -131,9 +170,38 @@ public class Client extends Application
 
             forthRow.getChildren().add(button);
             forthRow.setSpacing(3);
+
+            button.setOnAction(event -> 
+            {
+                //Μενει να δω πως θα υλοποιησω το Enter
+
+                String buttonText = ((Button) event.getSource()).getText();
+                if(buttonText.equals("SPACE"))
+                    text += " ";
+                else if(buttonText.equals("BACKSPACE"))
+                {
+                    try
+                    {
+                        text = text.substring(0, text.length() - 1);
+                    }
+                    catch(IndexOutOfBoundsException e)
+                    {
+                        System.err.println(e.getCause());
+                    }
+                }
+                else if(buttonText.equals("ENTER"))
+                {
+
+                }
+                else
+                    text += buttonText;
+        
+                textDisplay.setText(text);
+            });
         }
         keyboard.getChildren().add(forthRow);
         //ForthRow
+
 
         main.add(keyboard, 0, 1);
         main.setVgap(17);
