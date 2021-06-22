@@ -5,6 +5,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -23,10 +24,22 @@ public class Client extends Application
     {
         createKeyboardLayout();
 
+        createLicencePlateDisplay();
+
         var scene = new Scene(main, 1024, 768);
         stage.setScene(scene);
         stage.setTitle("Client");
         stage.show();
+    }
+
+    private void createLicencePlateDisplay()
+    {
+        TextField textDisplay = new TextField();
+        textDisplay.setPrefWidth(150);
+        textDisplay.setPromptText("Παρακαλώ εισάγετε τον αριθμό κυκλοφορίας");
+        textDisplay.setPadding(new Insets(10,10,10,10));
+        main.add(textDisplay, 0, 0);
+        main.setAlignment(Pos.CENTER);
     }
 
     private void createKeyboardLayout()
@@ -47,7 +60,7 @@ public class Client extends Application
             {"Q", "W", "E", "R", "T", "Y", "U"}, 
             {"I", "O", "P", "A", "S", "D", "F"},
             {"G", "H", "J", "K", "L", "Z", "X"},
-            {"C", "V", "B", "N", "M", "SPACE ", "BACKSPACE"}
+            {"C", "V", "B", "N", "M", "SPACE ", "BACKSPACE","ENTER"}
         };
 
         //FirstRow
@@ -114,15 +127,17 @@ public class Client extends Application
         {
             Button button = new Button(letters[3][j]);
 
-            button.setPadding(new Insets(34));
+            button.setPadding(new Insets(36.5));
 
             forthRow.getChildren().add(button);
+            forthRow.setSpacing(3);
         }
         keyboard.getChildren().add(forthRow);
         //ForthRow
 
-        main.add(keyboard, 0, 0);
-        main.setAlignment(Pos.BOTTOM_CENTER);
+        main.add(keyboard, 0, 1);
+        main.setVgap(17);
+        main.setAlignment(Pos.CENTER);
     }
 
     public static void main(String[] args) {
