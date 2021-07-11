@@ -11,6 +11,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
@@ -68,7 +69,7 @@ public class Client extends Application
             {"Q", "W", "E", "R", "T", "Y", "U"}, 
             {"I", "O", "P", "A", "S", "D", "F"},
             {"G", "H", "J", "K", "L", "Z", "X"},
-            {"C", "V", "B", "N", "M", "SPACE", "BACKSPACE","CATALOGUE ","ENTER"}
+            {"C", "V", "B", "N", "M", "SPACE", "BACKSPACE","CATALOGUE "}
         };
 
         //FirstRow
@@ -170,7 +171,7 @@ public class Client extends Application
         {
             Button button = new Button(letters[3][j]);
 
-            button.setPadding(new Insets(29.5));
+            button.setPadding(new Insets(36));
 
             forthRow.getChildren().add(button);
             forthRow.setSpacing(1);
@@ -195,10 +196,6 @@ public class Client extends Application
                 }
                 else if(buttonText.equals("CATALOGUE "))
                 {
-                    Catalogue.start();
-                }
-                else if(buttonText.equals("ENTER"))
-                {
                     
                     if(text.isEmpty())
                     {
@@ -208,6 +205,8 @@ public class Client extends Application
                     {
                         alertError(stage,"Ο αριθμός κυκλοφορίας πρέπει να έχει τουλάχιστον 2 χαρακτήρες");
                     }
+                    else
+                        Catalogue.start();
                 }
                 else
                     text += buttonText;
@@ -228,8 +227,10 @@ public class Client extends Application
     {
         Alert alert = new Alert(AlertType.ERROR);
         alert.setTitle("Σφάλμα");
-        alert.setHeaderText(errorString);
+        alert.setContentText(errorString);
+        alert.setHeaderText(null);
         alert.initOwner(stage);
+        alert.initModality(Modality.WINDOW_MODAL);
         alert.show();            
     }
 
