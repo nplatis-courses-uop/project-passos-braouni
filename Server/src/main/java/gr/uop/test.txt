@@ -1,0 +1,13 @@
+ID : 1: Plate : OOPPP6666 Cost : 0 Came At : 13-07-2021_14:56:25 Left at :  @@
+ID : 2: Plate : PPPP788 Cost : 0 Came At : 14-07-2021_20:40:30 Left at :  @@
+ID : 3: Plate : PPPP788YR Cost : 0 Came At : 14-07-2021_20:40:48 Left at :  @@
+ID : 4: Plate : HHH666 Cost : 0 Came At : 14-07-2021_20:45:34 Left at :  @@
+ID : 5: Plate : RRR666 Cost : 0 Came At : 14-07-2021_20:46:08 Left at :  @@
+ID : 6: Plate : RRR666 Cost : 0 Came At : 14-07-2021_20:46:15 Left at :  @@
+ID : 7: Plate : RRR666 Cost : 0 Came At : 14-07-2021_20:46:16 Left at :  @@
+ID : 8: Plate : EEEE Cost : 0 Came At : 14-07-2021_20:47:06 Left at :  @@
+ID : 9: Plate : PPPP666 Cost : 0 Came At : 14-07-2021_20:48:03 Left at :  @@
+ID : 10: Plate : OPPP455 Cost : 0 Came At : 14-07-2021_21:00:18 Left at :  @@
+ID : 2: Plate : SSS555 Cost : 0 Came At : 14-07-2021_21:05:03 Left at :  @@
+ID : 3: Plate : RR666 Cost : 0 Came At : 14-07-2021_21:09:41 Left at :  @@
+RR666 0 14-07-2021_22:01:27  14-07-2021_22:01:49
