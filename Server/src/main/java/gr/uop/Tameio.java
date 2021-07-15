@@ -1,37 +1,63 @@
 package gr.uop;
 
+import gr.uop.History;
+import gr.uop.Server;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class Tameio extends Application {
-    public static List<Label> list = new ArrayList<Label>();
-    public static ObservableList<Label> obs = FXCollections.observableArrayList(list);
+    public static List<String> list = new ArrayList<String>();
+    public static ObservableList<String> obs = FXCollections.observableArrayList(list);
     public static List<Label> ano = new ArrayList<Label>();
     public static ObservableList<Label> cost = FXCollections.observableArrayList(ano);
     public static List<Label> da = new ArrayList<Label>();
     public static ObservableList<Label> date = FXCollections.observableArrayList(da);
+    TableView<DummyClass> elements;
 
     @Override
     public void start(Stage stage) throws IOException {
         Server server = new Server();
-        ListView<Label> elements = new ListView<>();
+
+        TableColumn<DummyClass,String> column1 = new TableColumn<>("ΠΙΝΑΚΙΔΑ");
+        column1.setMinWidth(300.00);
+        column1.setCellValueFactory(new PropertyValueFactory<>("first"));
+        TableColumn<DummyClass,String > column2 = new TableColumn<>("ΚΟΣΤΟΣ");
+        column2.setMinWidth(300.00);
+        column2.setCellValueFactory(new PropertyValueFactory<>("second"));
+        TableColumn<DummyClass,String > column3 = new TableColumn<>("ΩΡΑ ΑΦΙΞΗΣ");
+        column3.setMinWidth(300.00);
+        column3.setCellValueFactory(new PropertyValueFactory<>("third"));
+
+        elements = new TableView<>();
+        ObservableList<DummyClass> services = FXCollections.observableArrayList();
+        services.add(new DummyClass("fads","fadsfads","dafsafsdafsd"));
+        services.add(new DummyClass("fads","fadsfads","dafsafsdafsd"));
+        services.add(new DummyClass("fads","fadsfads","dafsafsdafsd"));
+        services.add(new DummyClass("fads","fadsfads","dafsafsdafsd"));
+        services.add(new DummyClass("fads","fadsfads","dafsafsdafsd"));
+
+        elements.getColumns().add(column1);
+        elements.getColumns().add(column2);
+        elements.getColumns().add(column3);
+        elements.setStyle("-fx-alignment:CENTER;");
+        column1.setStyle("-fx-alignment:CENTER;");
+        column2.setStyle("-fx-alignment:CENTER;");
+        column3.setStyle("-fx-alignment:CENTER;");
+
+
         ListView<Label> kostos = new ListView<>();
         ListView<Label> day = new ListView<>();
         TableView<Label> tr = new TableView<>();
@@ -43,101 +69,37 @@ public class Tameio extends Application {
         Label label4 = new Label("Kostos");
         Button label5 = new Button("OK");
         Button label6 = new Button("NO");
-        //this.obs.add(new Label("hi"));
-        ColumnConstraints col1 = new ColumnConstraints();
-        col1.setPercentWidth(16);
-        ColumnConstraints col2 = new ColumnConstraints();
-        col2.setPercentWidth(16);
-        ColumnConstraints col3 = new ColumnConstraints();
-        col3.setPercentWidth(16);
-        ColumnConstraints col4 = new ColumnConstraints();
-        col4.setPercentWidth(16);
-        ColumnConstraints col5 = new ColumnConstraints();
-        col5.setPercentWidth(16);
-        ColumnConstraints col6 = new ColumnConstraints();
-        col6.setPercentWidth(16);
-        grid.getColumnConstraints().addAll(col1, col2, col3, col4, col5, col6);
 
-        grid.add(label1, 0, 0, 1, 1);
-        grid.add(label2, 1, 0, 1, 1);
-        grid.add(label3, 2, 0, 1, 1);
-        grid.add(label4, 3, 0, 1, 1);
-        grid.add(label5, 4, 0, 1, 1);
-        grid.add(label6, 5, 0, 1, 1);
-        grid.add(elements, 0, 1, 4, 4);
-//        grid.add(kostos,1,1,1,1);
-//        grid.add(day,2,1,1,1);
-        //grid.add(tr,0,1,4,4);
-        //grid.add(this.obs.get(0),0,1,1,2);
+        onStartUp();
+
+
+
+        grid.add(elements, 0, 1, 7, 7);
+        BorderPane pane = new BorderPane();
+        pane.setCenter(elements);
+        Button fullData = new Button("History");
+        //pane.setBottom(fullData);
+        //fullData.setAlignment(Pos.BASELINE_RIGHT);
+        StackPane right = new StackPane();
+        right.prefHeight(100.00);
+        right.setMinHeight(100.00);
+        right.getChildren().add(fullData);
+        fullData.setAlignment(Pos.BASELINE_RIGHT);
+        pane.setBottom(right);
+
         grid.maxWidth(1024.00);
         grid.prefWidth(1024.00);
         GridPane.setVgrow(grid, Priority.ALWAYS);
         BorderPane borderpane = new BorderPane();
-        var scene = new Scene(grid, 1024, 768);
+        var scene = new Scene(pane, 1024, 768);
         stage.setScene(scene);
-        stage.setTitle("Client");
+        stage.setTitle("Tameio");
         stage.show();
 
 
         server.start();
 
-        obs.addListener(new ListChangeListener<Label>() {
-            @Override
-            public void onChanged(ListChangeListener.Change<? extends Label> change) {
-                System.out.println("AAA");
-                while (change.next()) {
-                    if (change.wasAdded()) {
-                        System.out.println("EEE");
-                        int ch = change.getFrom();
-                        System.out.println(change.getList().get(ch));
-                        //grid.add(obs.get(ch),0,1,1,2);
-                        //elements.add(change.getList().get(ch));
-                        //updateGrid(grid,change.getList().get(ch));
-                    }
-                }
-
-            }
-        });
-        cost.addListener(new ListChangeListener<Label>() {
-            @Override
-            public void onChanged(Change<? extends Label> change) {
-                System.out.println("AAA");
-                while (change.next()) {
-                    if (change.wasAdded()) {
-                        System.out.println("EEE");
-                        int ch = change.getFrom();
-                        System.out.println(change.getList().get(ch));
-                        //grid.add(obs.get(ch),0,1,1,2);
-                        //elements.add(change.getList().get(ch));
-                        //updateGrid(grid,change.getList().get(ch));
-                    }
-                }
-
-            }
-        });
-        date.addListener(new ListChangeListener<Label>() {
-            @Override
-            public void onChanged(Change<? extends Label> change) {
-                System.out.println("AAA");
-                while (change.next()) {
-                    if (change.wasAdded()) {
-                        System.out.println("EEE");
-                        int ch = change.getFrom();
-                        System.out.println(change.getList().get(ch));
-                        //grid.add(obs.get(ch),0,1,1,2);
-                        //elements.add(change.getList().get(ch));
-                        //updateGrid(grid,change.getList().get(ch));
-                    }
-                }
-
-            }
-        });
-
-
-        //tr.setItems(obs);
-        elements.setItems(obs);
-        kostos.setItems(cost);
-        day.setItems(date);
+        elements.setItems(getPro());
 
         elements.setOnKeyPressed(event ->{
             if (event.getCode() == KeyCode.ENTER){
@@ -145,16 +107,59 @@ public class Tameio extends Application {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.get() == ButtonType.OK){
-                    System.out.println("Pressed");
-                    magic(elements.getSelectionModel().getSelectedItem());
-                    obs.remove(elements.getSelectionModel().getSelectedItem());
+                    magic(elements.getSelectionModel().getSelectedItem().toString());
+                    obs.remove(elements.getSelectionModel().getSelectedItem().toString());
+                    obs.removeAll(obs);
+                    onStartUp();
+                    elements.setItems(getPro());
                 }
+
+
+
+            }else if (event.getCode() == KeyCode.DELETE){
+                System.out.println("Pressed");
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.OK){
+                    deleteElement(elements.getSelectionModel().getSelectedItem().toString());
+                    obs.remove(elements.getSelectionModel().getSelectedItem().toString());
+                    obs.removeAll(obs);
+                    onStartUp();
+                    elements.setItems(getPro());
+                }
+
+
+
+            }
+        });
+        obs.addListener(new ListChangeListener<String>() {
+            @Override
+            public void onChanged(Change<? extends String> change) {
+                System.out.println("AAA");
+                while (change.next()) {
+                    if (change.wasAdded()) {
+                        System.out.println("EEE");
+                        int ch = change.getFrom();
+
+                        elements.setItems(getPro());
+
+                    }
+                }
+
+            }
+        });
+        elements.setItems(getPro());
+        fullData.setOnAction(e->{
+            try {
+                new History().start(new Stage());
+            } catch (Exception exception) {
+                exception.printStackTrace();
             }
         });
 
     }
 
-    public void add(Label label) {
+    public void add(String label) {
         obs.add(label);
     }
 
@@ -165,9 +170,9 @@ public class Tameio extends Application {
 
 
 
-    private void magic(Label label)  {
+    private void magic(String label)  {
 
-        String t = label.getText();
+        String t = label;
         t = t +  " @@";
         String date = new SimpleDateFormat("dd-MM-yyyy_HH:mm:ss").format(new Date());
 
@@ -186,7 +191,7 @@ public class Tameio extends Application {
             }
             reader.close();
 
-            String newtext = oldtext.replaceAll(t, t.replace("@@","") + " " + date);
+            String newtext = oldtext.replaceAll(t, t.replace("@@","") + "" + date);
 
             FileWriter writer = new FileWriter("test.txt");
             writer.write(newtext);writer.close();
@@ -199,5 +204,70 @@ public class Tameio extends Application {
 
 
     }
+
+
+    private void deleteElement(String label){
+        String s = label;
+        try {
+
+            BufferedReader file = new BufferedReader(new FileReader("test.txt"));
+            StringBuffer inputBuffer = new StringBuffer();
+            String line;
+
+            while ((line = file.readLine()) != null) {
+                if (line.contains(s)){
+                    line = "";
+                    continue;
+                }
+
+                inputBuffer.append(line);
+                inputBuffer.append('\n');
+            }
+            file.close();
+
+
+            FileOutputStream fileOut = new FileOutputStream("test.txt");
+            fileOut.write(inputBuffer.toString().getBytes());
+            fileOut.close();
+
+        } catch (Exception e) {
+            System.out.println("Problem reading file.");
+        }
+
+
+    }
+
+    private void onStartUp() {
+
+        try (BufferedReader br = new BufferedReader(new FileReader("test.txt"))){
+
+
+            String line;
+            while ((line = br.readLine())!=null){
+                if (line.contains("@@")){
+                    obs.add(line);
+                }
+            }
+
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    public static ObservableList<DummyClass> getPro(){
+        ObservableList<DummyClass> products = FXCollections.observableArrayList();
+        for (String l : obs){
+            String input = l;
+            String[] splitted = input.split(" ");
+
+            products.add(new DummyClass(splitted[0],splitted[1],splitted[2]));
+        }
+
+        return products;
+
+
+    }
+
+
 
 }

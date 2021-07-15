@@ -1,12 +1,17 @@
 package gr.uop;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -18,41 +23,71 @@ import java.util.Scanner;
 
 public class History extends Application {
 
-    public static List<Label> dataInput = new ArrayList<Label>();
-    public static ObservableList<Label> fileData = FXCollections.observableArrayList(dataInput);
+    public static List<String> dataInput = new ArrayList<String>();
+    public static ObservableList<String> fileData = FXCollections.observableArrayList(dataInput);
+
+    TableView<DummyClass> table;
+
+
     @Override
     public void start(Stage stage) throws Exception {
-
+        fileData.clear();
         VBox el = new VBox();
         ListView<Label> tableView = new ListView<>();
         el.setPrefWidth(768);
-        el.getChildren().add(tableView);
+
         readFile();
 
-        //fileData.addAll(dataInput);
-        //tableView.setItems(fileData);
+
+
+        TableColumn<DummyClass,String> column1 = new TableColumn<>("ΠΙΝΑΚΙΔΑ");
+        column1.setMinWidth(300.00);
+        column1.setCellValueFactory(new PropertyValueFactory<>("first"));
+        TableColumn<DummyClass,String > column2 = new TableColumn<>("ΚΟΣΤΟΣ");
+        column2.setMinWidth(300.00);
+        column2.setCellValueFactory(new PropertyValueFactory<>("second"));
+        TableColumn<DummyClass,String > column3 = new TableColumn<>("ΩΡΑ ΑΦΙΞΗΣ");
+        column3.setMinWidth(300.00);
+        column3.setCellValueFactory(new PropertyValueFactory<>("third"));
+        TableColumn<DummyClass,String > column4 = new TableColumn<>("ΩΡΑ ΑΝΑΧΩΡΗΣΗΣ");
+        column4.setMinWidth(300.00);
+        column4.setCellValueFactory(new PropertyValueFactory<>("fourth"));
+
+        table = new TableView<>();
+        table.getColumns().add(column1);
+        table.getColumns().add(column2);
+        table.getColumns().add(column3);
+        table.getColumns().add(column4);
+        table.setStyle("-fx-alignment:CENTER;");
+        column1.setStyle("-fx-alignment:CENTER;");
+        column2.setStyle("-fx-alignment:CENTER;");
+        column3.setStyle("-fx-alignment:CENTER;");
+        column4.setStyle("-fx-alignment:CENTER;");
+
+        table.setItems(getContent());
+        el.getChildren().add(table);
 
         var scene = new Scene(el, 1024, 768);
         stage.setScene(scene);
         stage.setTitle("Client");
         stage.show();
 
-        fileData.addListener(new ListChangeListener<Label>() {
+        fileData.addListener(new ListChangeListener<String>() {
             @Override
-            public void onChanged(ListChangeListener.Change<? extends Label> change) {
-                System.out.println("HUIU");
+            public void onChanged(Change<? extends String> change) {
+
                 while (change.next()){
                     if (change.wasAdded()){
 
-                        System.out.println("EEE");
+
                         int ch = change.getFrom();
-                        System.out.println(change.getList().get(ch));
+
                     }
                 }
             }
         });
 
-        tableView.setItems(fileData);
+
 
 
 
@@ -70,7 +105,7 @@ public class History extends Application {
             while (scanner.hasNext()){
                 String out = scanner.nextLine();
 
-                fileData.add(new Label(out));
+                fileData.add(out);
                 //fileData.add(out);
             }
 
@@ -79,10 +114,27 @@ public class History extends Application {
             e.printStackTrace();
         }
     }
-    //public static void add(String s)
-//    {
-//        fileData.add(s);
-//    }
+
+    public static ObservableList<DummyClass> getContent(){
+        ObservableList<DummyClass> products = FXCollections.observableArrayList();
+        for (String l : fileData){
+            String input = l;
+            String[] splitted = input.split(" ");
+            if (splitted[3].equals("@@")){
+                products.add(new DummyClass(splitted[0],splitted[1],splitted[2],"Pending"));
+            }else{
+
+                products.add(new DummyClass(splitted[0],splitted[1],splitted[2],splitted[3]));
+            }
+
+
+        }
+
+        return products;
+
+
+    }
+
 
 
 }
