@@ -359,4 +359,8 @@ public class Catalogue extends Client
             cost += CostC;
         tfCost.setText(""+cost);
     }
+
+    public static int getCost() {
+        return cost;
+    }
 }
