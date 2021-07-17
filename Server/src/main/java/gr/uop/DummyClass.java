@@ -1,6 +1,6 @@
 package gr.uop;
 
-
+import javafx.scene.control.Label;
 
 public class DummyClass {
 
@@ -8,7 +8,7 @@ public class DummyClass {
     private String second;
     private String third;
     private String fourth;
-
+    private String fifth;
     public DummyClass(String first, String second, String third) {
         this.first = first;
         this.second = second;
@@ -20,6 +20,25 @@ public class DummyClass {
         this.second = second;
         this.third = third;
         this.fourth = fourth;
+
+    }
+
+
+    public DummyClass(String first, String second, String third, String fourth,String fifth) {
+        this.first = first;
+        this.second = second;
+        this.third = third;
+        this.fourth = fourth;
+        this.fifth = fifth;
+    }
+
+
+    public String getFifth() {
+        return fifth;
+    }
+
+    public void setFifth(String fifth) {
+        this.fifth = fifth;
     }
 
     public String getFirst() {
@@ -56,7 +75,7 @@ public class DummyClass {
 
     @Override
     public String toString() {
-        return first + " " + second + " " + third;
+        return first + " " + second + " " + third + " " + fourth;
     }
 
 

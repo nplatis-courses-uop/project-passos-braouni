@@ -1,5 +1,6 @@
 package gr.uop;
 
+import gr.uop.DummyClass;
 import gr.uop.History;
 import gr.uop.Server;
 import javafx.application.Application;
@@ -40,6 +41,9 @@ public class Tameio extends Application {
         TableColumn<DummyClass,String > column3 = new TableColumn<>("ΩΡΑ ΑΦΙΞΗΣ");
         column3.setMinWidth(300.00);
         column3.setCellValueFactory(new PropertyValueFactory<>("third"));
+        TableColumn<DummyClass,String > column4 = new TableColumn<>("ΥΠΗΡΕΣΙΑ");
+        column4.setMinWidth(300.00);
+        column4.setCellValueFactory(new PropertyValueFactory<>("fourth"));
 
         elements = new TableView<>();
         ObservableList<DummyClass> services = FXCollections.observableArrayList();
@@ -52,11 +56,12 @@ public class Tameio extends Application {
         elements.getColumns().add(column1);
         elements.getColumns().add(column2);
         elements.getColumns().add(column3);
+        elements.getColumns().add(column4);
         elements.setStyle("-fx-alignment:CENTER;");
         column1.setStyle("-fx-alignment:CENTER;");
         column2.setStyle("-fx-alignment:CENTER;");
         column3.setStyle("-fx-alignment:CENTER;");
-
+        column4.setStyle("-fx-alignment:CENTER;");
 
         ListView<Label> kostos = new ListView<>();
         ListView<Label> day = new ListView<>();
@@ -93,7 +98,7 @@ public class Tameio extends Application {
         BorderPane borderpane = new BorderPane();
         var scene = new Scene(pane, 1024, 768);
         stage.setScene(scene);
-        stage.setTitle("Tameio");
+        stage.setTitle("Ταμείο");
         stage.show();
 
 
@@ -135,10 +140,10 @@ public class Tameio extends Application {
         obs.addListener(new ListChangeListener<String>() {
             @Override
             public void onChanged(Change<? extends String> change) {
-                System.out.println("AAA");
+                //System.out.println("AAA");
                 while (change.next()) {
                     if (change.wasAdded()) {
-                        System.out.println("EEE");
+                        //System.out.println("EEE");
                         int ch = change.getFrom();
 
                         elements.setItems(getPro());
@@ -191,10 +196,11 @@ public class Tameio extends Application {
             }
             reader.close();
 
-            String newtext = oldtext.replaceAll(t, t.replace("@@","") + "" + date);
+            String newtext = oldtext.replace(t,t.replace("@@",""+ date));
 
             FileWriter writer = new FileWriter("test.txt");
-            writer.write(newtext);writer.close();
+            writer.write(newtext);
+            writer.close();
         }
         catch (IOException ioe)
         {
@@ -260,7 +266,7 @@ public class Tameio extends Application {
             String input = l;
             String[] splitted = input.split(" ");
 
-            products.add(new DummyClass(splitted[0],splitted[1],splitted[2]));
+            products.add(new DummyClass(splitted[0],splitted[1],splitted[2],splitted[3]));
         }
 
         return products;

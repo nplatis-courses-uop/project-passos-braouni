@@ -1,5 +1,6 @@
 package gr.uop;
 
+import gr.uop.DummyClass;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -52,24 +53,29 @@ public class History extends Application {
         TableColumn<DummyClass,String > column4 = new TableColumn<>("ΩΡΑ ΑΝΑΧΩΡΗΣΗΣ");
         column4.setMinWidth(300.00);
         column4.setCellValueFactory(new PropertyValueFactory<>("fourth"));
+        TableColumn<DummyClass,String > column5 = new TableColumn<>("ΥΠΗΡΕΣΙΑ");
+        column5.setMinWidth(300.00);
+        column5.setCellValueFactory(new PropertyValueFactory<>("fifth"));
 
         table = new TableView<>();
         table.getColumns().add(column1);
         table.getColumns().add(column2);
         table.getColumns().add(column3);
         table.getColumns().add(column4);
+        table.getColumns().add(column5);
         table.setStyle("-fx-alignment:CENTER;");
         column1.setStyle("-fx-alignment:CENTER;");
         column2.setStyle("-fx-alignment:CENTER;");
         column3.setStyle("-fx-alignment:CENTER;");
         column4.setStyle("-fx-alignment:CENTER;");
+        column5.setStyle("-fx-alignment:CENTER;");
 
         table.setItems(getContent());
         el.getChildren().add(table);
 
         var scene = new Scene(el, 1024, 768);
         stage.setScene(scene);
-        stage.setTitle("Client");
+        stage.setTitle("Βιβλίο Καταχωρήσεων");
         stage.show();
 
         fileData.addListener(new ListChangeListener<String>() {
@@ -86,13 +92,6 @@ public class History extends Application {
                 }
             }
         });
-
-
-
-
-
-
-
 
 
     }
@@ -120,11 +119,11 @@ public class History extends Application {
         for (String l : fileData){
             String input = l;
             String[] splitted = input.split(" ");
-            if (splitted[3].equals("@@")){
-                products.add(new DummyClass(splitted[0],splitted[1],splitted[2],"Pending"));
+            if (splitted[4].equals("@@")){
+                products.add(new DummyClass(splitted[0],splitted[1],splitted[2],"Αναμονή Πληρωμής",splitted[3]));
             }else{
 
-                products.add(new DummyClass(splitted[0],splitted[1],splitted[2],splitted[3]));
+                products.add(new DummyClass(splitted[0],splitted[1],splitted[2],splitted[4],splitted[3]));
             }
 
 

@@ -1,6 +1,5 @@
 package gr.uop;
 
-import gr.uop.Tameio;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
