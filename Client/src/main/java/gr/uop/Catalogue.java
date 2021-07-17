@@ -1,8 +1,12 @@
 package gr.uop;
 
-
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
+import gr.uop.Client;
+import gr.uop.Services;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -33,14 +37,30 @@ public class Catalogue extends Client
     private static RadioButton  car , jeep , motorbike ;
     private static int cost;
     private static TextField tfCost;
+    private static TableView table = new TableView<>();
+    private static String data = "";
+    static Services EksPli;
+    static Services EsPli;
+    static Services EksEsPli;
+    static Services EksPliSpecial;
+    static Services EsPliSpecial;
+    static Services EksEsPliSpecial;
+    static Services EsBio;
+    static Services wax;
+    static Services engine;
+    static Services chassis;
+    private static Set<String> arr = new HashSet<>();
+    private static ArrayList<Services> aw = new ArrayList<>();
+
+
     public static void start()
     {
         cost = 0;
 
         Stage stage = new Stage();
         BorderPane pane = new BorderPane();
-        
-        TableView table = new TableView<>();
+
+
 
         car = new RadioButton("Aμάξι");
         jeep = new RadioButton("Τζιπ");
@@ -90,6 +110,41 @@ public class Catalogue extends Client
         checkbox10 = new CheckBox();
         checkbox10.setOnAction(event -> processCheckBox(event));
 
+
+        EksPli= new Services("Πλύσιμο_εξωτερικό","7","8","6",checkbox1);
+        EsPli= new Services("Πλύσιμο_εσωτερικό","6","7","-",checkbox2);
+        EksEsPli= new Services("Πλύσιμο_εξωτ+εσωτ","12","14","-",checkbox3);
+        EksPliSpecial= new Services("Πλύσιμο_εξωτ.σπέσιαλ","9","10","8",checkbox4);
+        EsPliSpecial= new Services("Πλύσιμο_εσωτ.σπέσιαλ","8","9","-",checkbox5);
+        EksEsPliSpecial= new Services("Πλύσιμο_εξωτ+εσωτ_+_σπεσιαλ","15","17","-",checkbox6);
+        EsBio= new Services("Βιολογικός_καθαρισμός_εσωτ","80","80","-",checkbox7);
+        wax= new Services("Κέρωμα-Γυάλισμα","80","90","40",checkbox8);
+        engine= new Services("Καθαρισμός_κινητήρα","20","20","10",checkbox9);
+        chassis= new Services("Πλύσιμο_σασί","3","3","-",checkbox10);
+
+        aw.add(EksPli);
+        aw.add(EsPli );
+        aw.add(EksEsPli );
+        aw.add(EksPliSpecial );
+        aw.add(EsPliSpecial );
+        aw.add(EksEsPliSpecial );
+        aw.add(EsBio );
+        aw.add(wax );
+        aw.add(engine );
+        aw.add(chassis );
+
+        ObservableList<Services> services = FXCollections.observableArrayList();
+        services.add(EksPli);
+        services.add(EsPli);
+        services.add(EksEsPli);
+        services.add(EksPliSpecial);
+        services.add(EsPliSpecial);
+        services.add(EksEsPliSpecial);
+        services.add(EsBio);
+        services.add(wax);
+        services.add(engine);
+        services.add(chassis);
+
         TableColumn<Services,String> servicesColumn = new TableColumn<>("");
         servicesColumn.setCellValueFactory(new PropertyValueFactory<Services,String>("service"));
         servicesColumn.setMaxWidth(200);
@@ -111,24 +166,12 @@ public class Catalogue extends Client
         CheckBoxColumn.setMaxWidth(100);
 
         //Services
-        ObservableList<Services> services = FXCollections.observableArrayList();
-        services.add(new Services("Πλύσιμο εξωτερικό","7","8","6",checkbox1));
-        services.add(new Services("Πλύσιμο εσωτερικό","6","7","-",checkbox2));
-        services.add(new Services("Πλύσιμο εξωτ+εσωτ","12","14","-",checkbox3));
-        services.add(new Services("Πλύσιμο εξωτ.σπέσιαλ","9","10","8",checkbox4));
-        services.add(new Services("Πλύσιμο εσωτ.σπέσιαλ","8","9","-",checkbox5));
-        services.add(new Services("Πλύσιμο εξωτ+εσωτ + σπεσιαλ","15","17","-",checkbox6));
-        services.add(new Services("Βιολογικός καθαρισμός εσωτ","80","80","-",checkbox7));
-        services.add(new Services("Κέρωμα-Γυάλισμα","80","90","40",checkbox8));
-        services.add(new Services("Καθαρισμός κινητήρα","20","20","10",checkbox9));
-        services.add(new Services("Πλύσιμο σασί","3","3","-",checkbox10));
-        //Services
 
         table.setItems(services);
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         table.getColumns().addAll(servicesColumn,CarColumn,JeepColumn,MotorBikeColumn,CheckBoxColumn);
 
-        
+
         pane.setTop(table);
         pane.setCenter(hbox);
 
@@ -143,7 +186,7 @@ public class Catalogue extends Client
         Button cancel = new Button("Cancel ");
         cancel.setPadding(new Insets(13));
 
-        confirm.setOnAction(event -> 
+        confirm.setOnAction(event ->
         {
             Alert alert = new Alert(AlertType.CONFIRMATION);
             alert.setTitle("Επιβεβαίωση");
@@ -154,15 +197,24 @@ public class Catalogue extends Client
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK) {
                 System.out.println("OK");
+                for (Services s : aw){
+
+                    if (s.getCheckBoxSelection().isSelected()) {
+                        arr.add(s.getService());
+                    }
+
+                }
+                System.out.println(serviceReturn());
+                stage.close();
             }
             else if (result.get() == ButtonType.CANCEL) {
                 System.out.println("Cancel");
             }
         });
 
-        cancel.setOnAction(event -> 
+        cancel.setOnAction(event ->
         {
-           stage.close();
+            stage.close();
         });
 
         HBox hbox3 = new HBox(8);
@@ -192,7 +244,7 @@ public class Catalogue extends Client
             }
             else
                 calculateCost(-7,-8,-6);
-               //cost = cost + 0.50;
+            //cost = cost + 0.50;
         }
         else if(event.getSource()==checkbox2)
         {
@@ -231,7 +283,7 @@ public class Catalogue extends Client
                 checkbox6.setSelected(false);
                 checkbox7.setSelected(false);
 
-                
+
                 calculateCost(12,14,0);
             }
             else
@@ -353,14 +405,26 @@ public class Catalogue extends Client
         if(car.isSelected())
             cost += costA;
         else if(jeep.isSelected())
-        
+
             cost += CostB;
         else
             cost += CostC;
         tfCost.setText(""+cost);
+
     }
 
     public static int getCost() {
         return cost;
     }
+
+    public static String serviceReturn(){
+        String forReturn ="";
+        for (String s : arr){
+            forReturn+=s+"_";
+        }
+        return forReturn;
+    }
+
+
+
 }
