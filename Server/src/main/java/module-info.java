@@ -1,4 +1,7 @@
 module gr.uop {
     requires javafx.controls;
-    exports gr.uop;
+    requires javafx.fxml;
+    requires java.desktop;
+    requires jdk.jlink;
+    opens gr.uop;
 }
