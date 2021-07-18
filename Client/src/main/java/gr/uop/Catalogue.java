@@ -54,6 +54,8 @@ public class Catalogue extends Client
 
     public static void start()
     {
+        aw.clear();
+        arr.clear();
         cost = 0;
 
         Stage stage = new Stage();
