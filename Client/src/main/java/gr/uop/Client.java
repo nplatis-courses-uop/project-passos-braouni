@@ -81,7 +81,7 @@ public class Client extends Application {
                         {"Q", "W", "E", "R", "T", "Y", "U"},
                         {"I", "O", "P", "A", "S", "D", "F"},
                         {"G", "H", "J", "K", "L", "Z", "X"},
-                        {"C", "V", "B", "N", "M", "SPACE", "BACKSPACE", "CATALOGUE", "ENTER"}
+                        {"C", "V", "B", "N", "M", "SPACE", "BACKSPACE", "CATALOGUE ", "ENTER"}
                 };
 
         //FirstRow
@@ -176,7 +176,7 @@ public class Client extends Application {
         for (int j = 0; j < letters[3].length; j++) {
             Button button = new Button(letters[3][j]);
 
-            button.setPadding(new Insets(36));
+            button.setPadding(new Insets(29.5));
 
             forthRow.getChildren().add(button);
             forthRow.setSpacing(1);
@@ -194,7 +194,7 @@ public class Client extends Application {
                     } catch (IndexOutOfBoundsException e) {
                         System.err.println(e.getCause());
                     }
-                } else if (buttonText.equals("CATALOGUE")) {
+                } else if (buttonText.equals("CATALOGUE ")) {
 
                     if (text.isEmpty()) {
                         alertError(stage, "Παρακαλώ δώστε αριθμό κυκλοφορίας");
@@ -227,13 +227,13 @@ public class Client extends Application {
                                 String service = Catalogue.serviceReturn();
                                 String date = new SimpleDateFormat("dd-MM-yyyy_HH:mm:ss").format(new Date());
                                 tmp.add(text + " " + value + " " + date + " " + service);
-                                System.out.println("CALLED");
+//                                System.out.println("CALLED");
 
                                 for (String s : tmp) {
                                     toServer.println(s);
-
-
                                 }
+
+                                tmp.clear();
 
                                 initiatedTemp = false;
                             }
@@ -245,12 +245,10 @@ public class Client extends Application {
                             int value = Catalogue.getCost();
                             //String server = Services.getS();
                             String service = Catalogue.serviceReturn();
-                            System.out.println("STORING");
+                            System.out.println("STORING DATA");
                             String date = new SimpleDateFormat("dd-MM-yyyy_HH:mm:ss").format(new Date());
                             tmp.add(text + " " + value + " " + date + " " + service);
-                            for (String s : tmp) {
-                                System.out.println(s);
-                            }
+
                             initiatedTemp = true;
 
                         }

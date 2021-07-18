@@ -9,6 +9,7 @@ public class DummyClass {
     private String third;
     private String fourth;
     private String fifth;
+
     public DummyClass(String first, String second, String third) {
         this.first = first;
         this.second = second;

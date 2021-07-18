@@ -7,11 +7,13 @@ import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
@@ -22,10 +24,6 @@ import java.util.*;
 public class Tameio extends Application {
     public static List<String> list = new ArrayList<String>();
     public static ObservableList<String> obs = FXCollections.observableArrayList(list);
-    public static List<Label> ano = new ArrayList<Label>();
-    public static ObservableList<Label> cost = FXCollections.observableArrayList(ano);
-    public static List<Label> da = new ArrayList<Label>();
-    public static ObservableList<Label> date = FXCollections.observableArrayList(da);
     TableView<DummyClass> elements;
 
     @Override
@@ -33,25 +31,21 @@ public class Tameio extends Application {
         Server server = new Server();
 
         TableColumn<DummyClass,String> column1 = new TableColumn<>("ΠΙΝΑΚΙΔΑ");
-        column1.setMinWidth(300.00);
+        column1.setMinWidth(200.00);
         column1.setCellValueFactory(new PropertyValueFactory<>("first"));
         TableColumn<DummyClass,String > column2 = new TableColumn<>("ΚΟΣΤΟΣ");
-        column2.setMinWidth(300.00);
+        column2.setMinWidth(200.00);
         column2.setCellValueFactory(new PropertyValueFactory<>("second"));
         TableColumn<DummyClass,String > column3 = new TableColumn<>("ΩΡΑ ΑΦΙΞΗΣ");
-        column3.setMinWidth(300.00);
+        column3.setMinWidth(200.00);
         column3.setCellValueFactory(new PropertyValueFactory<>("third"));
         TableColumn<DummyClass,String > column4 = new TableColumn<>("ΥΠΗΡΕΣΙΑ");
-        column4.setMinWidth(300.00);
+        column4.setMinWidth(200.00);
         column4.setCellValueFactory(new PropertyValueFactory<>("fourth"));
 
         elements = new TableView<>();
         ObservableList<DummyClass> services = FXCollections.observableArrayList();
-        services.add(new DummyClass("fads","fadsfads","dafsafsdafsd"));
-        services.add(new DummyClass("fads","fadsfads","dafsafsdafsd"));
-        services.add(new DummyClass("fads","fadsfads","dafsafsdafsd"));
-        services.add(new DummyClass("fads","fadsfads","dafsafsdafsd"));
-        services.add(new DummyClass("fads","fadsfads","dafsafsdafsd"));
+
 
         elements.getColumns().add(column1);
         elements.getColumns().add(column2);
@@ -63,17 +57,10 @@ public class Tameio extends Application {
         column3.setStyle("-fx-alignment:CENTER;");
         column4.setStyle("-fx-alignment:CENTER;");
 
-        ListView<Label> kostos = new ListView<>();
-        ListView<Label> day = new ListView<>();
-        TableView<Label> tr = new TableView<>();
+
 
         GridPane grid = new GridPane();
-        Label label1 = new Label("NUM");
-        Label label2 = new Label("Pinakida");
-        Label label3 = new Label("Ipiresies");
-        Label label4 = new Label("Kostos");
-        Button label5 = new Button("OK");
-        Button label6 = new Button("NO");
+
 
         onStartUp();
 
@@ -83,22 +70,43 @@ public class Tameio extends Application {
         BorderPane pane = new BorderPane();
         pane.setCenter(elements);
         Button fullData = new Button("History");
-        //pane.setBottom(fullData);
-        //fullData.setAlignment(Pos.BASELINE_RIGHT);
+        fullData.setStyle("-fx-color:red;-fx-font-style:italic;-fx-pref-width:100px;-fx-pref-height:50px;-fx-alignment:center;-fx-font-size:16px");
+        fullData.setOnMouseEntered(new EventHandler<MouseEvent>() {
+
+            @Override
+            public void handle(MouseEvent t) {
+                fullData.setStyle("-fx-color:green;-fx-font-style:italic;-fx-pref-width:100px;-fx-pref-height:50px;-fx-alignment:center;-fx-font-size:16px");;
+            }
+        });
+        fullData.setOnMouseExited(new EventHandler<MouseEvent>() {
+
+            @Override
+            public void handle(MouseEvent t) {
+                fullData.setStyle("-fx-color:red;-fx-font-style:italic;-fx-pref-width:100px;-fx-pref-height:50px;-fx-alignment:center;-fx-font-size:16px");
+            }
+        });
+        fullData.minWidth(100.00);
         StackPane right = new StackPane();
         right.prefHeight(100.00);
         right.setMinHeight(100.00);
         right.getChildren().add(fullData);
         fullData.setAlignment(Pos.BASELINE_RIGHT);
         pane.setBottom(right);
-
+        column1.prefWidthProperty().bind(elements.widthProperty().divide(4));
+        column2.prefWidthProperty().bind(elements.widthProperty().divide(4));
+        column3.prefWidthProperty().bind(elements.widthProperty().divide(4));
+        column4.prefWidthProperty().bind(elements.widthProperty().divide(4));
         grid.maxWidth(1024.00);
         grid.prefWidth(1024.00);
         GridPane.setVgrow(grid, Priority.ALWAYS);
-        BorderPane borderpane = new BorderPane();
+
         var scene = new Scene(pane, 1024, 768);
         stage.setScene(scene);
         stage.setTitle("Ταμείο");
+        stage.setMinWidth(1024.00);
+        stage.setMinHeight(768.00);
+        stage.setMaxHeight(1080);
+        stage.setMaxWidth(1920.00);
         stage.show();
 
 
@@ -110,6 +118,9 @@ public class Tameio extends Application {
             if (event.getCode() == KeyCode.ENTER){
                 elements.getSelectionModel().getSelectedItem();
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Επιβεβαίωση");
+                alert.setContentText("Θέλετε να εκδώσετε απόδειξη;");
+                alert.setHeaderText(null);
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.get() == ButtonType.OK){
                     magic(elements.getSelectionModel().getSelectedItem().toString());
@@ -122,8 +133,11 @@ public class Tameio extends Application {
 
 
             }else if (event.getCode() == KeyCode.DELETE){
-                System.out.println("Pressed");
+
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Διαγραφή");
+                alert.setContentText("Είσαστε σίγουροι;");
+                alert.setHeaderText(null);
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.get() == ButtonType.OK){
                     deleteElement(elements.getSelectionModel().getSelectedItem().toString());

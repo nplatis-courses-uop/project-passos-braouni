@@ -21,15 +21,15 @@ import java.util.regex.Pattern;
 public class Server extends Thread {
     private String complete = "";
 
-    public boolean connected = false;
-    private int ID = 0;
+
+
 
     @Override
     public void run() {
-        Tameio io = new Tameio();
+
         try (ServerSocket serverSocket = new ServerSocket(5555)) {
-            System.out.println("Started");
-            String toPrint = "";
+            
+
             int i = 1;
             while (true) {
 
@@ -37,13 +37,13 @@ public class Server extends Thread {
                 Scanner fromClient = new Scanner(client.getInputStream());
 
                 while (fromClient.hasNextLine()) {
-                    String ta = fromClient.nextLine();
-                    ta += " @@";
-                    Label x = new Label(ta);
+                    String clientString = fromClient.nextLine();
+                    clientString += " @@";
+                    Label x = new Label(clientString);
 
-                    System.out.println(ta);
+                    
 
-                    this.complete = ta;
+                    this.complete = clientString;
 
                     if (!this.complete.equals("")) {
 
@@ -61,7 +61,7 @@ public class Server extends Thread {
 
                             PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("test.txt", true)));
 
-                            out.println(ta);
+                            out.println(clientString);
 
 
                             out.close();
@@ -84,19 +84,7 @@ public class Server extends Thread {
 
     }
 
-    public Label retLabel() {
 
-
-        return new Label(this.complete);
-    }
-
-    public void getConn() {
-        if (!this.connected) {
-            this.connected = true;
-        }
-
-
-    }
 
 }
 

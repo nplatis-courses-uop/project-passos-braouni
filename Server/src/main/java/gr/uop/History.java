@@ -14,6 +14,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -33,28 +34,27 @@ public class History extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         fileData.clear();
-        VBox el = new VBox();
-        ListView<Label> tableView = new ListView<>();
-        el.setPrefWidth(768);
+        HBox el = new HBox();
+
 
         readFile();
 
 
 
         TableColumn<DummyClass,String> column1 = new TableColumn<>("ΠΙΝΑΚΙΔΑ");
-        column1.setMinWidth(300.00);
+        column1.setMinWidth(150.00);
         column1.setCellValueFactory(new PropertyValueFactory<>("first"));
         TableColumn<DummyClass,String > column2 = new TableColumn<>("ΚΟΣΤΟΣ");
-        column2.setMinWidth(300.00);
+        column2.setMinWidth(100.00);
         column2.setCellValueFactory(new PropertyValueFactory<>("second"));
         TableColumn<DummyClass,String > column3 = new TableColumn<>("ΩΡΑ ΑΦΙΞΗΣ");
-        column3.setMinWidth(300.00);
+        column3.setMinWidth(150.00);
         column3.setCellValueFactory(new PropertyValueFactory<>("third"));
         TableColumn<DummyClass,String > column4 = new TableColumn<>("ΩΡΑ ΑΝΑΧΩΡΗΣΗΣ");
-        column4.setMinWidth(300.00);
+        column4.setMinWidth(150.00);
         column4.setCellValueFactory(new PropertyValueFactory<>("fourth"));
         TableColumn<DummyClass,String > column5 = new TableColumn<>("ΥΠΗΡΕΣΙΑ");
-        column5.setMinWidth(300.00);
+        column5.setMinWidth(150.00);
         column5.setCellValueFactory(new PropertyValueFactory<>("fifth"));
 
         table = new TableView<>();
@@ -72,10 +72,21 @@ public class History extends Application {
 
         table.setItems(getContent());
         el.getChildren().add(table);
+        column1.prefWidthProperty().bind(el.widthProperty().divide(5));
+        column2.prefWidthProperty().bind(el.widthProperty().divide(5));
+        column3.prefWidthProperty().bind(el.widthProperty().divide(5));
+        column4.prefWidthProperty().bind(el.widthProperty().divide(5));
+        column5.prefWidthProperty().bind(el.widthProperty().divide(5));
 
         var scene = new Scene(el, 1024, 768);
+
+        stage.setMinWidth(1024.00);
+        stage.setMinHeight(768.00);
+        stage.setMaxHeight(1080);
+        stage.setMaxWidth(1920.00);
         stage.setScene(scene);
         stage.setTitle("Βιβλίο Καταχωρήσεων");
+
         stage.show();
 
         fileData.addListener(new ListChangeListener<String>() {
@@ -105,7 +116,7 @@ public class History extends Application {
                 String out = scanner.nextLine();
 
                 fileData.add(out);
-                //fileData.add(out);
+
             }
 
 
