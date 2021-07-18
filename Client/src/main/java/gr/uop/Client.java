@@ -81,7 +81,7 @@ public class Client extends Application {
                         {"Q", "W", "E", "R", "T", "Y", "U"},
                         {"I", "O", "P", "A", "S", "D", "F"},
                         {"G", "H", "J", "K", "L", "Z", "X"},
-                        {"C", "V", "B", "N", "M", "SPACE", "BACKSPACE", "CATALOGUE", "ENTER"}
+                        {"C", "V", "B", "N", "M", "SPACE", "BACKSPACE", "CATALOGUE ", "ENTER"}
                 };
 
         //FirstRow
@@ -176,7 +176,7 @@ public class Client extends Application {
         for (int j = 0; j < letters[3].length; j++) {
             Button button = new Button(letters[3][j]);
 
-            button.setPadding(new Insets(36));
+            button.setPadding(new Insets(29.5));
 
             forthRow.getChildren().add(button);
             forthRow.setSpacing(1);
@@ -194,7 +194,7 @@ public class Client extends Application {
                     } catch (IndexOutOfBoundsException e) {
                         System.err.println(e.getCause());
                     }
-                } else if (buttonText.equals("CATALOGUE")) {
+                } else if (buttonText.equals("CATALOGUE ")) {
 
                     if (text.isEmpty()) {
                         alertError(stage, "Παρακαλώ δώστε αριθμό κυκλοφορίας");

@@ -37,7 +37,6 @@ public class Catalogue extends Client
     private static RadioButton  car , jeep , motorbike ;
     private static int cost;
     private static TextField tfCost;
-    private static TableView table = new TableView<>();
     private static String data = "";
     static Services EksPli;
     static Services EsPli;
@@ -59,7 +58,7 @@ public class Catalogue extends Client
 
         Stage stage = new Stage();
         BorderPane pane = new BorderPane();
-
+        TableView table = new TableView<>();
 
 
         car = new RadioButton("Aμάξι");
@@ -216,6 +215,8 @@ public class Catalogue extends Client
         {
             stage.close();
         });
+
+        table.requestFocus();
 
         HBox hbox3 = new HBox(8);
         hbox3.getChildren().addAll(confirm,cancel);
